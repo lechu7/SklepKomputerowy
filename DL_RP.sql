@@ -52,7 +52,7 @@ CREATE TABLE Kategoria
    (Id_Dostawca int PRIMARY KEY NOT NULL,  
    nazwa varchar(50) NOT NULL,  
    Id_Adres int,  
-   Constraint Dostawca FOREIGN KEY(Id_Adres) references Adres (Id_Adres),
+   Constraint Id_Adres FOREIGN KEY(Id_Adres) references Adres (Id_Adres),
 	numer_telefon varchar(15) NOT NULL
    ) 
    
@@ -77,7 +77,7 @@ CREATE TABLE Kategoria
    	CREATE TABLE ZamowienieTowaruDoMagazynu
    (Id_ZamowienieTowarouDoMagazynu int PRIMARY KEY NOT NULL,
 	Id_Dostawca int,
-	Constraint ZamowienieTowaruDoMagazynu FOREIGN KEY(Id_Dostawca) references Dostawca (Id_Dostawca),	
+	Constraint Id_Dostawca FOREIGN KEY(Id_Dostawca) references Dostawca (Id_Dostawca),	
 	Id_Pracownik int,
 	Constraint Id_Pracownik FOREIGN KEY(Id_Pracownik) references Pracownik (Pesel),		
 	Id_Towar int,
