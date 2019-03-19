@@ -22,21 +22,18 @@ CREATE TABLE Kategoria
    (Pesel int PRIMARY KEY NOT NULL,  
    imie varchar(50) NOT NULL,
    nazwisko varchar(50) NOT NULL,
-   Id_Adres int,  
-   Constraint Id_Adres FOREIGN KEY(Id_Adres) references Adres (Id_Adres)
+    Id_Adres int unique FOREIGN KEY references Adres (Id_Adres),
    )
    
    CREATE TABLE Klient
-   (Pesel int PRIMARY KEY NOT NULL,  
-   Uzytkownik_Pesel int unique references Uzytkownik(Pesel),
+   (Uzytkownik_Pesel int unique references Uzytkownik(Pesel),
    mail varchar(50) NOT NULL,
    haslo varchar(50) NOT NULL,
    telefon varchar(15) NOT NULL
    ) 
    
     CREATE TABLE Pracownik
-   (Pesel int PRIMARY KEY NOT NULL, 
-    Uzytkownik_Pesel int unique references Uzytkownik(Pesel),
+   (Uzytkownik_Pesel int unique references Uzytkownik(Pesel),
    rodzaj_uprawnien varchar(50) NOT NULL,
    pensja float NOT NULL
    ) 
@@ -44,8 +41,8 @@ CREATE TABLE Kategoria
     CREATE TABLE PunktOdbioru
    (Id_PunktOdbioru int PRIMARY KEY NOT NULL,  
    telefon_wewnetrzny varchar(50) NOT NULL, 
-   Id_Adres int,  
-   Constraint Id_Adres FOREIGN KEY(Id_Adres) references Adres (Id_Adres)
+    Id_Adres int unique references Adres (Id_Adres),
+ /*  Constraint Id_Adres FOREIGN KEY(Id_Adres) references Adres (Id_Adres) */
    ) 
    
     CREATE TABLE Dostawca
@@ -76,10 +73,10 @@ CREATE TABLE Kategoria
    
    	CREATE TABLE ZamowienieTowaruDoMagazynu
    (Id_ZamowienieTowarouDoMagazynu int PRIMARY KEY NOT NULL,
-	Id_Dostawca int,
-	Constraint Id_Dostawca FOREIGN KEY(Id_Dostawca) references Dostawca (Id_Dostawca),	
-	Id_Pracownik int,
-	Constraint Id_Pracownik FOREIGN KEY(Id_Pracownik) references Pracownik (Pesel),		
+	Id_Pracownik int references Pracownik (Pesel),	
+	 /*
+	 Id_Pracownik int,
+	Constraint Id_Pracownik FOREIGN KEY(Id_Pracownik) references Pracownik (Pesel),	*/			
 	Id_Towar int,
 	Constraint Id_Towar FOREIGN KEY(Id_Towar) references Towar (Id_Towar),
     ilosc int NOT NULL,
@@ -88,11 +85,15 @@ CREATE TABLE Kategoria
    )  
    
     CREATE TABLE ZamowienieTowaruPrzezKlienta
-   (Id_ZamowienieTowaruPrzezKlienta int PRIMARY KEY NOT NULL, 	
-	Id_Klient int,
-	Constraint Id_Klient FOREIGN KEY(Id_Klient) references Klient (Pesel),		
-	Id_Towar int,
-	Constraint Id_Towar FOREIGN KEY(Id_Towar) references Towar (Id_Towar),		
+   (Id_ZamowienieTowaruPrzezKlienta int PRIMARY KEY NOT NULL, 
+   	
+	Id_Klient int unique FOREIGN KEY references Klient (Pesel),	
+	/*Id_Klient int,
+	Constraint Id_Klient FOREIGN KEY(Id_Klient) references Klient (Pesel),*/
+	
+	Id_Towar int unique FOREIGN KEY references Towar (Id_Towar),		
+	/*Id_Towar int,
+	Constraint Id_Towar FOREIGN KEY(Id_Towar) references Towar (Id_Towar),*/		
 	Id_PunktOdbioru int,
 	Constraint Id_PunktOdbioru FOREIGN KEY(Id_PunktOdbioru) references PunktOdbioru (Id_PunktOdbioru),
     ilosc int NOT NULL,
@@ -108,13 +109,17 @@ CREATE TABLE Kategoria
    ) 
    
     CREATE TABLE Reklamacja
-   (Id_Reklamacja int PRIMARY KEY NOT NULL,   
-	Id_Klient int,
-	Constraint Id_Klient FOREIGN KEY(Id_Klient) references Klient (Pesel),
+   (Id_Reklamacja int PRIMARY KEY NOT NULL,  
+    Id_Klient int unique FOREIGN KEY references Klient (Pesel),	
+	/*Id_Klient int,
+	Constraint Id_Klient FOREIGN KEY(Id_Klient) references Klient (Pesel),*/
 	Id_Wydanie int,
 	Constraint Id_Wydanie FOREIGN KEY(Id_Wydanie) references WydanieTowaruKlientowi (Id_Wydanie),
-	Id_Pracownik int,
-	Constraint Id_Pracownik FOREIGN KEY(Id_Pracownik) references Pracownik (Pesel),		
+	
+	 Id_Pracownik int unique FOREIGN KEY references Pracownik (Pesel),	
+	 /*
+	 Id_Pracownik int,
+	Constraint Id_Pracownik FOREIGN KEY(Id_Pracownik) references Pracownik (Pesel),	*/	
 	data_zlozenia_reklamacji date NOT NULL,
 	czyUwzgledniono bit NOT NULL  
    ) 
