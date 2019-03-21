@@ -9,7 +9,7 @@ Inner Join PunktOdbioru
 on Adres.Id_Adres=PunktOdbioru.Id_PunktOdbioru
 
 /*Zapytanie 3*/
-Select Towar.nazwa as nazwa_towaru, producent, Kategoria.nazwa as nazwa_kategorii from Towar
+Select Towar.nazwa as nazwa_towaru, producent, Podkategoria.nazwa as nazwa_podkategorii , Kategoria.nazwa as nazwa_kategorii from Towar
 Inner Join Podkategoria Inner Join Kategoria on Podkategoria.Id_Kategoria = Kategoria.Id_Kategoria
 on Towar.Id_Podkategoria = Podkategoria.Id_Podkategoria;
 
